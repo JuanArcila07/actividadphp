@@ -6,31 +6,48 @@
     <title>Document</title>
 </head>
 <body>
-<?php
-    session_start();
-    $conn = new mysqli("localhost", "root", "", "base2");
+    <div>
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+                <th>Pendiente</th>
+            </tr>
+            <?php
+                session_start();
+                $conn = new mysqli("localhost", "root", "", "base2");
 
-    if (!isset($_SESSION['usuario_id'])) {
-        header("Location: login1.php");
-        exit;
-    }
+                if (!isset($_SESSION['usuario_id'])) {
+                    header("Location: login1.php");
+                    exit;
+                }
 
-    $usuario_id = $_SESSION['usuario_id'];
-    $result = $conn->query("SELECT * FROM tareas WHERE usuario_id = $usuario_id");
+                $usuario_id = $_SESSION['usuario_id'];
+                $result = $conn->query("SELECT * FROM tareas WHERE usuario_id = $usuario_id");
 
-    while ($row = $result->fetch_assoc()) {
-    echo "<p>";
-    echo "<strong>Tarea:</strong> {$row['titulo']}<br>";
-    echo "<strong>Descripción:</strong> {$row['descripcion']}<br>";
-    echo "<a href='editar_tarea.php?id={$row['id']}'>Editar</a> | ";
-    echo "<a href='eliminar_tarea.php?id={$row['id']}'>Eliminar</a> | ";
-    echo "<a href='completar_tarea.php?id={$row['id']}'>Marcar como completada</a>";
-    echo "</p>";
-    }
-?>
-<hr>
+                while ($row = $result->fetch_assoc()) {
+                    $estado = ($row['estado'] == 1) ? "Completado" : "Pendiente";
+
+                    echo "<tr>";
+                    echo "<td>{$row['id']}</td>";
+                    echo "<td>{$row['titulo']}</td>";
+                    echo "<td>{$row['descripcion']}</td>";
+                    echo "<td>{$estado}</td>";
+                    echo "<td><a href='editar_tarea.php?id={$row['id']}'>Editar</a></td>";
+                    echo "<td><a href='eliminar_tarea.php?id={$row['id']}'>Eliminar</a></td>";
+                    echo "<td><a href='marcar_pendiente.php?id={$row['id']}'>Completar</a></td>";
+                    echo "</tr>";
+                }
+            ?>
+        </table>
+    </div>
+    <hr>
     <a href="nueva_tarea.php">Crear nueva tarea</a> 
     <br>
-    <a href="logout.php">Cerrar sesión</a>
+    <a href="logout.php">Cerrar sesión</a
 </body>
 </html>
