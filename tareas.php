@@ -15,7 +15,7 @@
                 <th>Estado</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
-                <th>Pendiente</th>
+                <th>Marcar como Completado</th>
             </tr>
             <?php
                 session_start();
@@ -30,7 +30,7 @@
                 $result = $conn->query("SELECT * FROM tareas WHERE usuario_id = $usuario_id");
 
                 while ($row = $result->fetch_assoc()) {
-                    $estado = ($row['estado'] == 1) ? "Completado" : "Pendiente";
+                    $estado = ($row['completada'] == 1) ? "Completado" : "Pendiente";
 
                     echo "<tr>";
                     echo "<td>{$row['id']}</td>";
@@ -39,7 +39,7 @@
                     echo "<td>{$estado}</td>";
                     echo "<td><a href='editar_tarea.php?id={$row['id']}'>Editar</a></td>";
                     echo "<td><a href='eliminar_tarea.php?id={$row['id']}'>Eliminar</a></td>";
-                    echo "<td><a href='marcar_pendiente.php?id={$row['id']}'>Completar</a></td>";
+                    echo "<td><a href='completar_tarea.php?id={$row['id']}'>Marcar como Completado</a></td>";
                     echo "</tr>";
                 }
             ?>
@@ -48,6 +48,6 @@
     <hr>
     <a href="nueva_tarea.php">Crear nueva tarea</a> 
     <br>
-    <a href="logout.php">Cerrar sesión</a
+    <a href="logout.php">Cerrar sesión</a>
 </body>
 </html>

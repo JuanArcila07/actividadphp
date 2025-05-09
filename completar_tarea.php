@@ -7,19 +7,21 @@
 </head>
 <body>
 <?php
-    session_start();
-    $conn = new mysqli("localhost", "root", "", "base2");
+session_start();
+$conn = new mysqli("localhost", "root", "", "base2");
 
-    if (!isset($_SESSION['usuario_id'])) {
-        header("Location: login1.php");
-        exit;
-    }
-
-    $id = $_GET['id'];
-    $conn->query("UPDATE tareas SET completada = TRUE WHERE id = $id");
-
-    header("Location: tareas.php");
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login1.php");
     exit;
+}
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $conn->query("UPDATE tareas SET completada = 1 WHERE id = $id");
+}
+
+header("Location: tareas.php"); 
+exit;
 ?>
 
 </body>
