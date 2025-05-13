@@ -8,6 +8,19 @@
 <body>
 <?php
     session_start();
+
+    if (!isset($_SESSION['usuario_id'])) {
+        header("Location: login1.php");
+        exit;
+    }
+
+    // Evitar que la página se almacene en caché
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+?>
+<?php
+    session_start();
     $conn = new mysqli("localhost", "root", "", "base2");
 
     if (!isset($_SESSION['usuario_id'])) {
